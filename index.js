@@ -15,10 +15,34 @@
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+Person.prototype.poop = function (){
+  this.stomach = [];
+}
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
+const ty = new Person('ty', 21);
+const andrew = new Person('andrew', 28);
 
+console.log(ty.toString());
+console.log(andrew.toString());
+
+ty.eat('hamburger');
+ty.eat('cookies');
+andrew.eat('hot dog');
+console.log(ty.stomach);
+ty.poop();
+console.log(andrew.stomach);
 
 /*
   TASK 2
@@ -36,11 +60,21 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
-
-
+Car.prototype.fill = function(gallons){
+  this.gallons = gallons;
+  this.tank += gallons;
+}
+Car.prototype.drive = function(distance){
+  this.distance = distance;
+  const drivableMiles = this.tank * this.milesPerGallon
+  this.odometer += distance;
+}
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -49,18 +83,25 @@ function Car() {
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age, favoriteToy);
+  this.favoriteToy = favoriteToy;
 }
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  return `${this.name} plays with ${this.favoriteToy}`;
+}
+const child = new Baby("James", 2, "Ball")
+
 
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Global Scope
+  2. Object's method
+  3. call() method
+  4. bind() method
 */
 
 ///////// END OF CHALLENGE /////////
